@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Flash Card",
+  "description": "Bookmark your things to review later",
+  "version": "1.0",
+  "permissions": ["storage", "tabs"],
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "icons": {
+    "16": "assets/icon.png",
+    "32": "assets/icon.png",
+    "48": "assets/icon.png",
+    "128": "assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "assets/icon.png",
+      "24": "assets/icon.png",
+      "32": "assets/icon.png"
+    },
+    "default_title": "Flash Card",
+    "default_popup": "popup.html"
+  }
+}
