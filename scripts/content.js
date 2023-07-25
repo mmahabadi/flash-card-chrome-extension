@@ -65,3 +65,9 @@ function handleDoubleClick(event) {
 
 // Listen for double-click events on the webpage.
 document.addEventListener("dblclick", handleDoubleClick);
+
+function handleClick(event) {
+  removePopover();
+}
+
+document.addEventListener("click", handleClick);
