@@ -1,6 +1,6 @@
 const popOverId = "word-popover";
 
-function showPopover(word, x, y) {
+function showPopover(word: string, x: number, y: number) {
   const popover = document.createElement("div");
   popover.id = popOverId;
 
@@ -14,34 +14,10 @@ function showPopover(word, x, y) {
   popover.style.boxShadow = "0 0 20px rgba(0,0,0,0.5);";
   popover.style.border = "1px solid #ccc";
 
-  popover.after.position = "absolute";
-  popover.after.height = "0";
-  popover.after.width = "0";
-  popover.after.margin = "auto";
-  //top
-  popover.after.left = "0";
-  popover.after.right = "0";
-  popover.after.bottom = "-0.75em";
-  popover.after.borderTop = "0.75em solid #fff";
-  popover.after.borderLeft = "1em solid transparent";
-  popover.after.borderRight = "1em solid transparent";
-
   popover.textContent = "Loading..." + word; // Placeholder text while fetching the meaning.
 
   document.body.appendChild(popover);
 
-  // Fetch the meaning of the word from an API or service.
-  // Replace 'https://api.example.com/' with the actual API endpoint.
-  // fetch(`https://api.example.com/meaning?word=${word}`)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     const meaning = data.meaning;
-  //     popover.textContent = `Word: ${word}\n\nMeaning: ${meaning}`;
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error fetching word meaning:", error);
-  //     popover.textContent = "Failed to fetch the meaning.";
-  //   });
 }
 
 function removePopover() {
@@ -52,8 +28,8 @@ function removePopover() {
 }
 
 // Function to handle double-click event and send the selected word to the background script.
-function handleDoubleClick(event) {
-  const selectedWord = window.getSelection().toString().trim();
+const handleDoubleClick = (event: MouseEvent) => {
+  const selectedWord = (window as any).getSelection().toString().trim();
   if (selectedWord) {
     const x = event.clientX;
     const y = event.clientY;
@@ -61,13 +37,13 @@ function handleDoubleClick(event) {
     showPopover(selectedWord, x, y);
     chrome.runtime.sendMessage({ action: "showPopup", word: selectedWord });
   }
-}
+};
 
 // Listen for double-click events on the webpage.
 document.addEventListener("dblclick", handleDoubleClick);
 
-function handleClick(event) {
+const handleClick = () => {
   removePopover();
-}
+};
 
 document.addEventListener("click", handleClick);
