@@ -2,11 +2,17 @@ import { Action, Message } from "./types";
 
 // Listener for incoming messages from the content script.
 chrome.runtime.onMessage.addListener(
-  (message: Message, sender: any, sendResponse: unknown) => {
+  async (message: Message, sender: any, sendResponse: unknown) => {
+    const word = message.payload;
     if (message.action === Action.SHOW_POPUP) {
-      const word = message.payload;
+    } else if (message.action == Action.GET_MEANING) {
+      const response = await fetch(
+        "https://api.dictionaryapi.dev/api/v2/entries/en/"
+      );
+      const data = await response.json();
+
       // Pass the selected word to the popup.
-      chrome.action.setPopup({ tabId: sender.tab.id, popup: "../popup.html" });
+      chrome.action.setPopup({ tabId: sender.tab.id, popup: "popup.html" });
 
       // Send the word to the popup.
       chrome.runtime.sendMessage({
